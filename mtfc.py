@@ -89,14 +89,49 @@ def create_bar_chart_with_colors(title, x, y):
 
 # Ensure only trading days are considered (already done by the data, as non-trading days are not included)
 
+# Function to create a bar chart for Call and Put P&L separately
+def create_separate_bar_chart(title, x, y, name, color):
+    fig = go.Figure()
+    
+    # Add the bars
+    fig.add_trace(go.Bar(x=x, y=y, name=name, marker_color=color))
+
+    # Update layout
+    fig.update_layout(title=title,
+                      xaxis_title='Date',
+                      yaxis_title='P&L (Rs)',
+                      template='plotly',
+                      plot_bgcolor='rgba(255, 255, 255, 1)',
+                      yaxis=dict(tickformat=',', showgrid=True, zeroline=True))
+    
+    return fig
+
+# Create separate bar charts for Call and Put P&L
+fig_call_pnl = create_separate_bar_chart(
+    'Daily Call P&L',
+    df.index,
+    df['Call'],
+    'Call P&L',
+    'orange'
+)
+
+fig_put_pnl = create_separate_bar_chart(
+    'Daily Put P&L',
+    df.index,
+    df['Put'],
+    'Put P&L',
+    'magenta'
+)
+
 # Create the bar chart for Daily Total P&L with green for profit and red for loss
 fig6 = create_bar_chart_with_colors('Daily Total P&L (Profit: Green, Loss: Red)', df.index, df['Total'])
 
+
 fig1 = create_figure('Cumulative Total on ₹13 Lac Capital', df.index, df['Cumulative_Total_on_Capital'], 
-                     'Cumulative Total on ₹13 Lac Capital', 'green')
+                     'Cumulative Total on ₹13 Lac Capital', 'blue')
 
 fig2 = create_figure('Cumulative Total', df.index, df['Cumulative_Total'], 
-                     'Cumulative Total', 'blue')
+                     'Cumulative Total', 'green')
 
 fig3 = create_figure('Cumulative Total of Call Leg', df.index, df['Cumulative_Call'], 
                      'Cumulative Call Leg', 'orange')
@@ -112,12 +147,15 @@ fig5 = create_figure('Maximum Drawdown', df.index, df['Drawdown'],
 st.title("Startegy Performance Dashboard")
 
 # Display Charts
-st.plotly_chart(fig1)
-st.plotly_chart(fig6)
 st.plotly_chart(fig2)
+st.plotly_chart(fig6)
+st.plotly_chart(fig_call_pnl)  # Bar chart for Call P&L
+st.plotly_chart(fig_put_pnl)   # Bar chart for Put P&L
+# st.plotly_chart(fig1)
 st.plotly_chart(fig3)
 st.plotly_chart(fig4)
 st.plotly_chart(fig5)
+
 
 
 # Display Insights
@@ -145,4 +183,3 @@ insights = [
 
 for insight in insights:
     st.write(insight)
-
