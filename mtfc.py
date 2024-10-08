@@ -174,7 +174,7 @@ insights = [
     f"**Drawdown Duration:** {drawdown_duration} days",
     f"**Max Consecutive Winning Days:** {max_consecutive_winning_days}",
     f"**Max Consecutive Losing Days:** {max_consecutive_losing_days}",
-    f"**Capital at Risk (Max Drawdown):** {capital_at_risk:.2f}%",
+    f"**Capital at Risk (Max Drawdown):** {max_dd} {capital_at_risk:.2f}%",
     f"**Sharpe Ratio:** {sharpe_ratio:.2f}",
     f"**Sortino Ratio:** {sortino_ratio:.2f}",
     f"**Calmar Ratio:** {calmar_ratio:.2f}",
